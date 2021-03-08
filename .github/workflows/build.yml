@@ -57,5 +57,6 @@ jobs:
           port: 21
           # Folder to upload from, must end with trailing slash /
           local-dir: ./public/
+          server-dir: ./codemonkey/
           # How verbose should the information be - warn, info, debug
           log-level: verbose
