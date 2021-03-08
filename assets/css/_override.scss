@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../lib/fonts/fira-code-v10-latin-ext_latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../lib/fonts/fira-code-v10-latin-ext_latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  @font-face {
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+         url('../lib/fonts/fira-sans-v10-latin-ext_latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('../lib/fonts/fira-sans-v10-latin-ext_latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+$global-font-family: Fira Sans, Times New Roman;
+$global-font-size: 16px;
+$global-font-weight: 400;
+$header-background-color: #ececec;
+$global-font-size: 16px;
+
