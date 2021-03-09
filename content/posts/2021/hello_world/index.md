@@ -30,12 +30,14 @@ summaryStyle:
     transparency: 0.5
 ---
 
+The reason for this.
+
 <!--more-->
 
 I will do it **again**. Writing a blog and the motivation for me this time is to document mostly the work on my "write a database" project.
 
 I tried it many times, the blog more often than the database thing but both failed. The first try on the [database project](https://github.com/sebfischer83/datatent) was too ambitious. Too many features, too complex.
 
-The blog writting has similiar problems, I want to write perfect articles but that doesn't work that way.
+The blog writing has similar problems, I want to write perfect articles but that doesn't work that way.
 
-This time it's different!(?)
+This time it's different! (?)
