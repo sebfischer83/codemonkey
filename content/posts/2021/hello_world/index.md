@@ -30,11 +30,9 @@ summaryStyle:
     transparency: 0.5
 ---
 
-The reason for this.
+I will do it **again**. Writing a blog and the motivation for me this time is to document mostly the work on my "write a database" project.
 
 <!--more-->
-
-I will do it **again**. Writing a blog and the motivation for me this time is to document mostly the work on my "write a database" project.
 
 I tried it many times, the blog more often than the database thing but both failed. The first try on the [database project](https://github.com/sebfischer83/datatent) was too ambitious. Too many features, too complex.
 
