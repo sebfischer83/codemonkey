@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="1102" height="810" style="user-select: none; position: absolute; left: 0px; top: 0px;">
+<g>
+<rect width="1102" height="810" x="0" y="0" id="0" style="fill: rgb(16, 12, 42);">
+</rect>
+</g>
+<g>
+<path d="M 83.1215 749.5 L 1046.9 749.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<path d="M 83.1215 651.5 L 1046.9 651.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<path d="M 83.1215 553.5 L 1046.9 553.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<path d="M 83.1215 456.5 L 1046.9 456.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<path d="M 83.1215 358.5 L 1046.9 358.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<path d="M 83.1215 260.5 L 1046.9 260.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<path d="M 83.1215 162.5 L 1046.9 162.5" fill="none" stroke="#484753" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(0,-1,1,0,33.1215,455.75)" dominant-baseline="central" text-anchor="middle" x="0" y="-6" style="font: 12px &quot;Microsoft YaHei&quot;;">time in microseconds</text>
+<path d="M 83.1215 749.5 L 1046.9 749.5" fill="none" stroke="#B9B8CE" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="round" stroke-miterlimit="10">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,565.0107,774.5)" dominant-baseline="central" text-anchor="middle" x="0" y="6" style="font: 12px &quot;Microsoft YaHei&quot;;">iterations</text>
+<path d="M 565.5 749.5 L 565.5 754.5" fill="none" stroke="#B9B8CE" stroke-width="1" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,749.5)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">0</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,651.5833)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">30</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,553.6667)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">60</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,455.75)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">90</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,357.8333)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">120</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,259.9167)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">150</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,75.1215,162)" dominant-baseline="central" text-anchor="end" x="0" y="0" style="font: 12px &quot;Microsoft YaHei&quot;;">180</text>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,565.0107,757.5)" dominant-baseline="central" text-anchor="middle" x="0" y="6" style="font: 12px &quot;Microsoft YaHei&quot;;">1000</text>
+<path d="M 155.4049 749.5 L 232.689 749.5 L 232.689 296.309 L 155.4049 296.309 L 155.4049 749.5" fill="#4992ff" fill-opacity="1" stroke="none">
+</path>
+<path d="M 248.1458 749.5 L 325.43 749.5 L 325.43 241.6715 L 248.1458 241.6715 L 248.1458 749.5" fill="#7cffb2" fill-opacity="1" stroke="none">
+</path>
+<path d="M 340.8868 749.5 L 418.1709 749.5 L 418.1709 414.3313 L 340.8868 414.3313 L 340.8868 749.5" fill="#fddd60" fill-opacity="1" stroke="none">
+</path>
+<path d="M 433.6277 749.5 L 510.9119 749.5 L 510.9119 495.5042 L 433.6277 495.5042 L 433.6277 749.5" fill="#ff6e76" fill-opacity="1" stroke="none">
+</path>
+<path d="M 526.3687 749.5 L 603.6528 749.5 L 603.6528 564.3396 L 526.3687 564.3396 L 526.3687 749.5" fill="#58d9f9" fill-opacity="1" stroke="none">
+</path>
+<path d="M 619.1096 749.5 L 696.3938 749.5 L 696.3938 504.0229 L 619.1096 504.0229 L 619.1096 749.5" fill="#05c091" fill-opacity="1" stroke="none">
+</path>
+<path d="M 711.8506 749.5 L 789.1347 749.5 L 789.1347 297.5493 L 711.8506 297.5493 L 711.8506 749.5" fill="#ff8a45" fill-opacity="1" stroke="none">
+</path>
+<path d="M 804.5915 749.5 L 881.8757 749.5 L 881.8757 240.7903 L 804.5915 240.7903 L 804.5915 749.5" fill="#8d48e3" fill-opacity="1" stroke="none">
+</path>
+<path d="M 897.3325 749.5 L 974.6166 749.5 L 974.6166 440.2139 L 897.3325 440.2139 L 897.3325 749.5" fill="#dd79ff" fill-opacity="1" stroke="none">
+</path>
+<path d="M -5 -5 L 981.9648 -5 L 981.9648 19 L -5 19 L -5 -5" fill="rgba(0,0,0,0)" fill-opacity="1" stroke="#ccc" stroke-width="0" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10" transform="matrix(1,0,0,1,62.5176,86)">
+</path>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#4992ff" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,62.5176,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,62.5176,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">loop</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#7cffb2" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,128.6328,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,128.6328,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">loop unrolled 2x</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#fddd60" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,262.8398,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,262.8398,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">loop unrolled 4x</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#ff6e76" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,397.0469,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,397.0469,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">loop unrolled 8x</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#58d9f9" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,531.2539,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,531.2539,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">binary search</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#05c091" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,647.6074,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,647.6074,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">binary search lookup</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#ff8a45" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,807.5547,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,807.5547,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">indexof</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#8d48e3" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,890.498,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,890.498,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">vector</text>
+<path d="M 3.5 0 L 21.5 0 A 3.5 3.5 0 0 1 25 3.5 L 25 10.5 A 3.5 3.5 0 0 1 21.5 14 L 3.5 14 A 3.5 3.5 0 0 1 0 10.5 L 0 3.5 A 3.5 3.5 0 0 1 3.5 0" fill="#dd79ff" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,966.3047,86)">
+</path>
+<text xml:space="preserve" fill="#B9B8CE" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,966.3047,86)" dominant-baseline="central" text-anchor="start" x="30" y="7" style="font: 12px &quot;Microsoft YaHei&quot;;">octuple</text>
+<path d="M -82.8096 -5 L 82.8096 -5 L 82.8096 23 L -82.8096 23 L -82.8096 -5" fill="rgba(0,0,0,0)" fill-opacity="1" stroke="#ccc" stroke-width="0" paint-order="fill" stroke-opacity="1" stroke-dasharray="" stroke-linecap="butt" stroke-miterlimit="10" transform="matrix(1,0,0,1,551,21.2)">
+</path>
+<text xml:space="preserve" fill="#EEF1FA" fill-opacity="1" stroke="none" transform="matrix(1,0,0,1,551,21.2)" dominant-baseline="central" text-anchor="middle" x="0" y="9" style="font: bold 18px &quot;Microsoft YaHei&quot;;">Find first zero bit</text>
+</g>
+</svg>
