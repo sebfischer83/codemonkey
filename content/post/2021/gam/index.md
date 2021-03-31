@@ -18,6 +18,7 @@ comments: false
 thumbnailImage: images/post/2021/gam/thumb.png
 thumbnailImagePosition: bottom
 showPagination: false
+draft: true
 ---
 
 This post was supposed to say something about the GAM. But a small function that is not even very significant in 
