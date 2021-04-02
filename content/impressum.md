@@ -45,6 +45,3 @@ Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden 
 
 Quelle: [eRecht24](https://www.e-recht24.de)
 
-<small>
-<a href="https://www.freepik.com/vectors/background">Background vector created by tartila - www.freepik.com</a>
-</small>
