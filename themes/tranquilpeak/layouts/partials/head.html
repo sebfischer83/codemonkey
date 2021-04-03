@@ -26,6 +26,9 @@
   <head>
     {{ partial "head_start.html" . }}
     {{ partial "meta.html" . }}
+    {{ if and (hugo.IsProduction) (.Site.Params.googleAnalyticsID) }}
+    {{ partial "analytics-gtag.html" . }}
+    {{ end }}
     <title>{{ with .Title }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }}</title>
 
     <link rel="icon" href="{{ with .Site.Params.favicon }}{{ . }}{{ else }}/favicon.png{{ end }}">
@@ -45,7 +48,7 @@
     <link rel="stylesheet" href="/css/jquery.fancybox-thumbs.min.css" type="text/css" />
     <!--EXTERNAL STYLES END-->
     <!--STYLES-->
-    <link rel="stylesheet" href="/css/style-egbh3plgl3sd1uput8y71q617odct2zwkz2fb76u63odwv15kznjgmzelk.min.css" />
+    <link rel="stylesheet" href="/css/style-bwjq7vrymdtgyizbl8rnbxzzujdgucmelz7zc9ideeivqprgzcmwzqnjxhq8.min.css" />
     <!--STYLES END-->
     {{ range .Site.Params.customCSS }}
       {{ if isset . "href" }}

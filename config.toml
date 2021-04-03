@@ -7,8 +7,8 @@ theme = "tranquilpeak"
 paginate = 7
 canonifyurls = true
 enableRobotsTXT = true
-googleAnalyticsID = "G-75B6YW5J0L"
-googleAnalytics = "G-75B6YW5J0L"
+
+# googleAnalytics = "G-75B6YW5J0L"
 
 [permalinks]
   post = "/:year/:month/:slug/"
@@ -94,7 +94,7 @@ googleAnalytics = "G-75B6YW5J0L"
   # Months (not work with short month like "jan", "feb", etc) are translated if translation exists on i18n folders
   # Default format is: January 2, 2006
   dateFormat = "2 January 2006"
-
+googleAnalyticsID = "G-75B6YW5J0L"
   # Global keywords configuration. Following keywords will be add to every pages
   # keywords = ["development", "next-gen"]
 
