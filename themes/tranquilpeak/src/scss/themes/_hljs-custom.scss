@@ -1,51 +1,84 @@
-// Highlight.js custom theme
-// Follow guidelines
-// 1. Uncomment the block just below - remove `/*` and `*/`
-// 2. Fill `background`, `color`, `border-right-color` properties
-// with properties of `.hljs` CSS class of your theme
-// 3. Put your theme where it's indicated just below
-// 4. Remove `.hljs {...}` rules
-// 5. Remove `hljs-` of all CSS class name. E.g : `.hljs-comment` becomes `.comment`
-// 6. Comment line 61 (`'themes/tranquilpeak',`) of `source/_css/tranquilpeak.scss` file
-// 7. Run `grunt buildProd` to build the theme and see the result
 /*
-// Default code block
-pre > code {
-    background: ;
-    color: ;
+ * Hopscotch
+ * by Jan T. Sott
+ * https://github.com/idleberg/Hopscotch
+ *
+ * This work is licensed under the Creative Commons CC0 1.0 Universal License
+ */
+
+/* Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #989498;
 }
 
-// Default inline code
-code {
-    background-color: ;
+/* Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-link,
+.hljs-deletion {
+  color: #dd464c;
 }
 
-// Tabbed code block tab
-// If your theme is dark then use a lighter background
-// to see clearly which tab is active
-.codeblock--tabbed figcaption .tab.active {
-    background: ;
-    color: ;
+/* Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #fd8b19;
 }
 
-// highlight code block
-figure.highlight,
-.codeblock {
-    background: ;
-    color: ;
-
-    figcaption {
-        background: ;
-        color: ;
-    }
-    .gutter {
-        background: ;
-        border-right-color: ;
-        .line {
-            color: ;
-        }
-    }
-    // PUT YOUR THEME HERE
-
+/* Yellow */
+.hljs-class .hljs-title {
+  color: #fdcc59;
 }
-*/
+
+/* Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+  color: #8fc13e;
+}
+
+/* Aqua */
+.hljs-meta {
+  color: #149b93;
+}
+
+/* Blue */
+.hljs-function,
+.hljs-section,
+.hljs-title {
+  color: #1290bf;
+}
+
+/* Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #c85e7c;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #322931;
+  color: #b9b5b8;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}

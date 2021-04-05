@@ -7,6 +7,7 @@ theme = "tranquilpeak"
 paginate = 7
 canonifyurls = true
 enableRobotsTXT = true
+disqusShortname = "codemonkeyspace"
 
 # googleAnalytics = "G-75B6YW5J0L"
 
@@ -100,7 +101,7 @@ googleAnalyticsID = "G-75B6YW5J0L"
 
   # Syntax highlighter, possible choice between: "highlight.js" (recommanded) and "prism.js" (experimental)
   # You can comment it to disable syntax highlighting
-  syntaxHighlighter = "highlight.js"
+  syntaxHighlighter = "prism.js"
 
   # Hide sidebar on all article page to let article take full width to improve reading, and enjoy wide images and cover images. (true: enable, false: disable)
   clearReading = true

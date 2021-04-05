@@ -10,6 +10,7 @@ tags:
 - page
 keywords:
 - database
+- 
 showTags: true
 showPagination: true
 showSocial: true
@@ -20,6 +21,7 @@ comments: false
 thumbnailImage: images/post/2021/it_starts_with_a_page/featured-image.jpg
 thumbnailImagePosition: right
 showPagination: false
+disqusIdentifier: cmspage2021
 ---
 
 This post is about the beginning of the project and the "smallest" part of the database.

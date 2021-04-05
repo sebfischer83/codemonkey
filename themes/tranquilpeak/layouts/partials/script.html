@@ -3,12 +3,12 @@
 {{ if eq .Site.Params.syntaxHighlighter "highlight.js" }}
   <script src="/libs/highlight.min.js" ></script>
 {{ else if eq .Site.Params.syntaxHighlighter "prism.js" }}
-  <script src="/libs/prism.min.js" i></script>
+  <script src="/libs/prism.js" i></script>
 {{ end }}
 <script src="/libs/jquery.fancybox.min.js" ></script>
 <!--EXTERNAL SCRIPTS END-->
 <!--SCRIPTS-->
-<script src="/js/script-m99epgwlchi9hg2kr42a67m8xz0auvn3gd2z3bk8ptc3lvfdkcq4uqiq.min.js"></script>
+<script src="/js/tranquilpeak.js"></script>
 <!--SCRIPTS END-->
 {{ range .Site.Params.customJS }}
   {{ if isset . "src" }}
