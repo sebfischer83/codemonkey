@@ -11,11 +11,11 @@ keywords:
 showTags: true
 showPagination: true
 showSocial: true
-coverImage: images/post/2021/hello_world/featured-image.jpg
+coverImage: https://codemonkeyspace.b-cdn.net/post/2021/hello_world/featured-image.jpg
 coverMeta: in
 coverSize: partial
 comments: false
-thumbnailImage: images/post/2021/hello_world/featured-image.jpg
+thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/hello_world/featured-image.jpg
 thumbnailImagePosition: left
 showPagination: false
 ---

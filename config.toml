@@ -8,6 +8,7 @@ paginate = 7
 canonifyurls = true
 enableRobotsTXT = true
 disqusShortname = "codemonkeyspace"
+enableEmoji = true
 
 # googleAnalytics = "G-75B6YW5J0L"
 
@@ -20,7 +21,7 @@ disqusShortname = "codemonkeyspace"
   archive = "archives"
 
 [author]
-  name = "Sebastian Fischer"
+  name = "Code monkey in space"
   bio = "about my success and fails in the world of software development"
   job = "Code monkey"
   location = "Germany"
@@ -28,7 +29,7 @@ disqusShortname = "codemonkeyspace"
   #g ravatarEmail = "sebfischer@gmx.net"
   # Your profile picture
   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-  picture = "images/android-chrome-192x192.png"
+  picture = "https://codemonkeyspace.b-cdn.net/blog/android-chrome-192x192.png"
   # Your Twitter username without the @. E.g : thibaudlepretre
   # twitter = "thibaudlepretre"
 
@@ -150,7 +151,7 @@ googleAnalyticsID = "G-75B6YW5J0L"
   autoThumbnailImage = true
 
   # Your favicon path, default is "/favicon.png"
-  favicon = "images/favicon.png"
+  favicon = "https://codemonkeyspace.b-cdn.net/blog/favicon.png"
 
   # Header configuration
   # The link at the right of the header is customizable

@@ -14,11 +14,11 @@ keywords:
 showTags: true
 showPagination: true
 showSocial: true
-coverImage: images/post/2021/it_starts_with_a_page/featured-image.jpg
+coverImage: https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/featured-image.jpg
 coverMeta: in
 coverSize: partial
 comments: true
-thumbnailImage: images/post/2021/it_starts_with_a_page/featured-image.jpg
+thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/featured-image.jpg
 thumbnailImagePosition: right
 showPagination: false
 ---
@@ -116,7 +116,7 @@ Size: 64 bytes. Paddings: 43 bytes (%67 of empty space)
 #### Page limits
 
 The maximum number of pages sets the maximum size of the database:
-{{< figure src="/images/post/2021/it_starts_with_a_page/math2.png" caption="" attr="" attrlink="" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/math2.png" caption="" attr="" attrlink="" >}}
 
 ### Slotted Pages
 
@@ -128,12 +128,12 @@ But there are also page types that don't use slots because their whole space is 
 
 ##### Example
 
-{{< figure src="/images/post/2021/it_starts_with_a_page/page.svg" caption="Data page" attr="" attrlink="" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/page.svg" caption="Data page" attr="" attrlink="" >}}
 
 A slot for an entry contains the data length and the offset on the page. A maximum of 255 slots can be on a page. So a page is filled with 255 entries with approximately 28 bytes in length. I think it will be scarce to have so many small entries, so 255 should be enough by far.
 
 The slots start at the end of the page. That means the slots get filled from the rear. So when there are ten entries, there wouldn't be wasted space for 245 empty slots. The maximum usable length of a data page is calculated by: 
-{{< figure src="/images/post/2021/it_starts_with_a_page/math1.png" caption="" attr="" attrlink="" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/math1.png" caption="" attr="" attrlink="" >}}
 
 ##### Page Address
 ```cs 
@@ -156,7 +156,7 @@ They are used for all data references outside the page.
 
 This section describes the current simple implementation for defragmentation operation.
 
-{{< figure src="/images/post/2021/it_starts_with_a_page/defrag.svg" caption="defragmentation overview" attr="" attrlink="" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/defrag.svg" caption="defragmentation overview" attr="" attrlink="" >}}
 
 As shown in the picture, the defragmentation operation searches the first and the second gap in the data, when there is no second gap, then until the end and moves the data in the first gap. This procedure is repeated until all gaps are gone, or the maximum number of iterations has been reached.
 There are many optimization possibilities here, but this function should typically not be called so often, so this has low priority.
@@ -257,13 +257,13 @@ There are the following rules (with the default settings):
 * in every GAM there are 64 AIM Pages
 * on every AIM Page follows 1015 other pages (an AIM holds 1016 pages but itself as the first one)
 
-{{< figure src="/images/post/2021/it_starts_with_a_page/page_org.svg" caption="data file example" attr="" attrlink="" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/page_org.svg" caption="data file example" attr="" attrlink="" >}}
 
 Here a short overview of the pages that form the file structure. A detailed overview of each will be in separate posts.
 
 ### Global Allocation Map Page
 
-{{< figure src="/images/post/2021/it_starts_with_a_page/gam.svg" caption="GAM" attr="" attrlink="" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/gam.svg" caption="GAM" attr="" attrlink="" >}}
 
 This page aims to track which pages are allocated and to retrieve the next available free page for allocation.
 It has space to track 65024 pages in a bit field. (8128 bytes * 8 bit per byte) 

@@ -15,17 +15,19 @@ keywords:
 - .net core
 - loop unrolling
 - perfomance optimization
+- sharplib
 showTags: true
 showPagination: true
 showSocial: true
-coverImage: images/post/2021/gam/featured-image.jpg
+coverImage: https://codemonkeyspace.b-cdn.net/post/2021/gam/featured-image.jpg
 coverMeta: in
 coverSize: partial
 comments: true
-thumbnailImage: images/post/2021/gam/thumb.png
+thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/gam/thumb.png
 thumbnailImagePosition: bottom
 showPagination: false
 draft: true
+math: true
 ---
 
 This post was supposed to say something about the GAM. But a small function that is not even very significant in 
@@ -39,15 +41,95 @@ But let's start with the GAM page here.
 
 ## GAM
 
+GAM is the abbreviation of "Global Allocation Map".
+
 ### What is the task of a GAM?
+
+This page aims to track the already allocated pages and hand over the following page id to the management objects.
+In standard size, they track $ 65024 (8124 * 8) $ pages. Each of these bits only tells whether the page has already been allocated or not. There is no further information in this page type. A GAM is always the second page after the header in the database file.
+And after 65024 pages, always a GAM keeps coming. This pattern makes it easy to get the pages by index in a file.
+The first GAM is created with the database file itself and contains one page from the start. The first page in a GAM is always an IAM page, but this comes in a later post.
+
+The allocation of pages is always continuously ascending. This simplification allows many things to be handled more efficiently.
+For example, if the last byte is 0xFF, the page is full. When the first byte is 0x00, the page is empty.
+We are searching only for the first set bit when the page is loaded from the disk. After that, the page cache the last issued id.
 
 ### How to get a page id
 
-## Finding the right value
+The GAM has a method called AcquirePageId. First, the method search for the following free id. All ids are now relative to the current GAM page and not to the database as a whole. Then the id is marked as allocated. After that, I'm adding the own id of the GAM to the "local" id. Now the id can be returned to the caller and will (hopefully) not returned to the subsequent caller.
+
+##### Finding the last allocated page
+
+It's not hard to find the first not 0xFF byte and then the first not set bit. But it's becoming a challenge for me to make this whole function faster and more optimized. Yes, I know many people will quote this:
+{{< blockquote author="Donald Knuth" link="https://en.wikiquote.org/wiki/Donald_Knuth" >}}
+The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.
+{{< /blockquote >}}
+But this is a fun and self-education project, so it seems legit to do such things. 
+How this works out is part of the next [section](#finding-the-right-value).
+
+##### Mark the allocated page
+
+That is an easy task. Set the bit at the proper position to one.
+Because of that, I will only show my current implementation. But maybe there is also a lot of optimization potential in that. :smile:
+
+{{< codecaption lang="csharp" title="mark allocated page" >}}
+protected void MarkPageAsAllocated(int localId)
+{
+    // get the data part of the page
+    var dataBuffer = Buffer.Span.Slice(Constants.PAGE_HEADER_SIZE);
+    // shortcut for the first byte, DivRem is not needed than
+    if (localId < 9)
+    {
+        ref byte b = ref dataBuffer[0];
+        b = (byte)(b | (1 << localId - 1));
+        return;
+    }
+
+    var bytePos = Math.DivRem(localId, 8, out var remainder);
+    if (remainder > 0)
+    {
+        ref byte b2 = ref dataBuffer[bytePos];
+        b2 = (byte)(b2 | (1 << remainder - 1));
+    }
+    else
+    {
+        // when remainder == 0, we need to set the last bit of the byte before
+        ref byte b2 = ref dataBuffer[bytePos - 1];
+        b2 = (byte)(b2 | (1 << 7));
+    }
+}
+{{< /codecaption >}}
+
+## SharpLab.io
+
+I want to present an excellent tool I found when I'm looking around when researching this post. [sharplab.io](https://sharplab.io/) is an online code editor but has very cool features. SharpLib is an online code editor but has very cool features.
+It lets you compile with different framework versions. 
+
+You can view different output options (as debug or release build):
+- decompiled C# code
+- IL code
+- assembler after the JIT compiler
+- abstract syntax tree
+- verfication result of the code
+- explains different new C# features in the given code
+- result of the code execution
+
+## Finding the correct value
+
+Let's start with the first version.
 
 ### Starting Point
 
-```csharp
+The first version has only three real optimizations.
+- look at the content as longs, so we need less iterations for searching
+- edge cases for empty and full
+
+I use the [BitOperations](https://docs.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.leadingzerocount?view=net-5.0) class, these is available since .Net Core 3.0.
+It uses the processor [intrinsics](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.x86.lzcnt?view=net-5.0) if [available](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=_lzcnt_u64&expand=3504 "Intel Intrinsics Guide") and has a optimized software fallback. So I think there wouldn't be any faster method to do this operation. 
+
+What can be optimized instead? The loop!
+
+{{< codecaption lang="csharp" title="first version" >}}
 public int DefaultLoop(Span<byte> span)
 {
     Span<ulong> longSpan = MemoryMarshal.Cast<byte, ulong>(span);
@@ -74,11 +156,11 @@ public int DefaultLoop(Span<byte> span)
 
     return -1;
 }
-```
+{{< /codecaption >}}
 
 ### Unrolling
 
-```csharp 
+{{< codecaption lang="csharp" title="two times unrolled" >}}
 public int Unroll2(Span<byte> span)
 {
     Span<ulong> longSpan = MemoryMarshal.Cast<byte, ulong>(span);
@@ -120,9 +202,9 @@ public int Unroll2(Span<byte> span)
 
     return -1;
 }
-``` 
+{{< /codecaption >}}
 
-```cs
+{{< codecaption lang="csharp" title="four times unrolled" >}}
 public int Unroll4(Span<byte> span)
 {
     Span<ulong> longSpan = MemoryMarshal.Cast<byte, ulong>(span);
@@ -177,9 +259,9 @@ public int Unroll4(Span<byte> span)
 
     return -1;
 }
-```
+{{< /codecaption >}}
 
-```csharp
+{{< codecaption lang="nasm" title="two times unrolled asm" >}}
 C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
     L0000: sub rsp, 0x38
     L0004: xor eax, eax
@@ -267,9 +349,10 @@ C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
     L0123: int3
     L0124: call 0x00007ffc9e07bc70
     L0129: int3
-```
+{{< /codecaption >}}
 
-```cs
+
+{{< codecaption lang="nasm" title="four times unrolled asm" >}}
 C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
     L0000: sub rsp, 0x38
     L0004: xor eax, eax
@@ -389,7 +472,7 @@ C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
     L01a3: int3
     L01a4: call 0x00007ffc9e07bc70
     L01a9: int3
-```
+{{< /codecaption >}}
 
 ### Binary Search Like
 
@@ -402,7 +485,7 @@ C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
 ## Conclusion
 
 
-{{< figure src="/images/post/2021/gam/Find first zero bit.svg" caption="results" attr="" attrlink="" width="100%" link="/images/post/2021/gam/Find first zero bit.svg" target="_blank" >}}
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/gam/Find%20first%20zero%20bit.svg" caption="results" attr="" attrlink="" width="100%" link="https://codemonkeyspace.b-cdn.net/post/2021/gam/Find%20first%20zero%20bit.svg" target="_blank" >}}
 
 
 ``` ini
@@ -417,6 +500,7 @@ Job=MediumRun  IterationCount=15  LaunchCount=2
 WarmupCount=10  
 
 ```
+{{<table "table table-striped table-sm table-hover tableHeader">}}
 |                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
 |----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
 |                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
@@ -428,7 +512,7 @@ WarmupCount=10
 |                IndexOf |       1000 | 138.47 μs | 1.586 μs | 2.324 μs | 138.66 μs |  1.00 |    0.03 |       No |
 |             WithVector |       1000 | 155.86 μs | 2.147 μs | 3.147 μs | 155.26 μs |  1.12 |    0.04 |       No |
 |          OctupleSearch |       1000 |  94.76 μs | 1.404 μs | 2.102 μs |  94.30 μs |  0.68 |    0.02 |       No |
-
+{{</ table >}}
 
 
 <small>
