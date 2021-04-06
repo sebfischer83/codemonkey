@@ -21,12 +21,11 @@ showSocial: true
 coverImage: images/post/2021/gam/featured-image.jpg
 coverMeta: in
 coverSize: partial
-comments: false
+comments: true
 thumbnailImage: images/post/2021/gam/thumb.png
 thumbnailImagePosition: bottom
 showPagination: false
 draft: true
-disqusIdentifier: cmsgam2021
 ---
 
 This post was supposed to say something about the GAM. But a small function that is not even very significant in 

@@ -17,11 +17,10 @@ showSocial: true
 coverImage: images/post/2021/it_starts_with_a_page/featured-image.jpg
 coverMeta: in
 coverSize: partial
-comments: false
+comments: true
 thumbnailImage: images/post/2021/it_starts_with_a_page/featured-image.jpg
 thumbnailImagePosition: right
 showPagination: false
-disqusIdentifier: cmspage2021
 ---
 
 This post is about the beginning of the project and the "smallest" part of the database.
