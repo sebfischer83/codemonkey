@@ -1,18 +1,30 @@
 @charset "UTF-8";
 @font-face {
-  font-family: 'Open Sans';
+  font-family: 'Cascadia Mono';
   font-style: normal;
   font-weight: 400;
-  src: local("Open Sans"), local("OpenSans"), url(/fonts/CascadiaMono.ttf) format("truetype"); }
+  src: local("Cascadia Mono"), local("Cascadia Mono"), url(/fonts/CascadiaMono.ttf) format("truetype"); }
 
 @font-face {
-  font-family: 'Open Sans';
+  font-family: 'Cascadia Mono';
   font-style: normal;
   font-weight: 700;
-  src: local("Open Sans Bold"), local("OpenSans-Bold"), url(/fonts/CascadiaMono.ttf) format("truetype"); }
+  src: local("Cascadia Mono"), local("Cascadia Mono"), url(/fonts/CascadiaMono.ttf) format("truetype"); }
+
+@font-face {
+  font-family: 'Merriweather';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Merriweather"), local("Merriweather"), url(/fonts/Merriweather-Regular.ttf) format("truetype"); }
+
+@font-face {
+  font-family: 'FireSans';
+  font-style: normal;
+  font-weight: 400;
+  src: local("FireSans"), local("FireSans"), url(/fonts/FiraSans-Regular.ttf) format("truetype"); }
 
 html {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Cascadia Mono", sans-serif;
   font-size: 10px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -26,8 +38,8 @@ body {
   margin: 0;
   padding: 0;
   background: white;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.6rem;
+  font-family: "Cascadia Mono", sans-serif;
+  font-size: 1.2rem;
   line-height: 1.9em;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -42,7 +54,7 @@ h4,
 h5,
 h6 {
   letter-spacing: -0.04em;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Cascadia Mono", sans-serif;
   font-weight: 700;
   line-height: 1.45em;
   color: #4a4a4a; }
@@ -130,7 +142,7 @@ pre > code {
   cursor: text;
   overflow-x: auto;
   line-height: 2.7rem;
-  font-size: 1.4rem; }
+  font-size: 1.7rem; }
 
 code {
   font-size: 1.5rem;
@@ -240,7 +252,7 @@ pre.code-highlight > code {
     #about #about-card #about-card-job,
     #about #about-card #about-card-location,
     #about #about-card #about-card-bio {
-      font-size: 1.6rem;
+      font-size: 1.2rem;
       line-height: 1.9em;
       font-weight: 400;
       color: #5d686f; }
@@ -506,7 +518,7 @@ pre.code-highlight > code {
     color: #88909a; }
   #header .header-title {
     text-align: center;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     line-height: 55px;
     margin: 0; }
     #header .header-title .header-title-link {
@@ -676,7 +688,7 @@ pre.code-highlight > code {
       width: calc(100% - 75px); } }
 
 #sidebar {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Cascadia Mono", sans-serif;
   height: 100%;
   position: fixed;
   top: 0;
@@ -1446,7 +1458,7 @@ pre.code-highlight > code {
   padding: 8px 15px;
   margin: 0;
   letter-spacing: 0.01em;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   cursor: pointer; }
   .btn:hover, .btn:focus, .btn:active {
     text-decoration: none; }
@@ -1496,7 +1508,7 @@ pre.code-highlight > code {
 
 .caption {
   display: block;
-  font-family: "Merriweather", serif;
+  font-family: "FireSans", serif;
   font-size: 1.3rem;
   color: #81929d;
   text-align: center;
@@ -1550,7 +1562,7 @@ figure.highlight,
     border-right: 1px solid;
     padding: 0.3em 15px;
     line-height: 2.3rem;
-    font-size: 1.4rem; }
+    font-size: 1.7rem; }
     figure.highlight .gutter pre,
     .codeblock .gutter pre {
       color: #aaaaaa; }
@@ -1561,14 +1573,14 @@ figure.highlight,
     figure.highlight .code pre,
     .codeblock .code pre {
       line-height: 2.3rem;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       max-width: calc(750px - 50px);
       overflow-x: auto;
       overflow-y: hidden; }
   figure.highlight .line,
   .codeblock .line {
     height: 2.3rem;
-    font-size: 1.4rem; }
+    font-size: 1.7rem; }
 
 .codeblock--tabbed figure.highlight,
 .codeblock--tabbed pre > code {
@@ -1728,7 +1740,7 @@ figure.highlight,
     position: absolute;
     bottom: 0;
     width: calc(100% - (1.5em) * 2);
-    font-family: "Open Sans";
+    font-family: "Cascadia Mono";
     font-style: italic;
     background: rgba(0, 0, 0, 0.75);
     font-size: 1.3rem;
@@ -1938,7 +1950,7 @@ a.fancybox {
       text-decoration: none; }
   .post .post-meta {
     line-height: 1.5em;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Cascadia Mono", sans-serif;
     font-size: 1.3rem;
     font-weight: 400;
     color: #9eabb3; }
@@ -1947,7 +1959,7 @@ a.fancybox {
   .post .post-content {
     text-rendering: optimizelegibility;
     letter-spacing: -0.3px;
-    font-family: "Merriweather", serif;
+    font-family: "FireSans", serif;
     color: #5d686f;
     margin-top: 20px;
     font-weight: 400;
@@ -2076,8 +2088,8 @@ a.fancybox {
         text-decoration: none; }
     .post-header-cover .post-header .post-meta {
       max-width: 750px;
-      font-family: "Open Sans", sans-serif;
-      font-size: 1.6rem;
+      font-family: "Cascadia Mono", sans-serif;
+      font-size: 1.2rem;
       color: white !important;
       font-weight: 400;
       letter-spacing: 0.05em;
@@ -2244,17 +2256,18 @@ a.fancybox {
   .postShorten .postShorten-meta,
   .postShorten .postShorten-readingtime,
   .postShorten .postShorten-excerpt_link {
-    font-family: "Open Sans", sans-serif;
-    font-size: 1.3rem;
+    font-family: "Cascadia Mono", sans-serif;
+    font-size: 1.5rem;
     font-weight: 400; }
   .postShorten .postShorten-excerpt,
   .postShorten .postShorten-content {
     text-rendering: optimizelegibility;
     letter-spacing: -0.3px;
-    font-family: "Merriweather", serif;
+    font-family: "FireSans", serif;
     color: #5d686f;
     font-weight: 400;
     overflow: hidden;
+    font-size: 1.5rem;
     -webkit-hypens: auto;
     -moz-hypens: auto;
     hypens: auto; }
@@ -2485,7 +2498,7 @@ a.tag--small,
   font-size: 1.5rem !important; }
 
 .text-base {
-  font-size: 1.6rem !important; }
+  font-size: 1.2rem !important; }
 
 .text-large {
   font-size: 1.7rem !important; }
@@ -2521,7 +2534,7 @@ a.tag--small,
   color: #349ef3 !important; }
 
 .font-merryweather {
-  font-family: "Merriweather", serif; }
+  font-family: "FireSans", serif; }
 
 .tooltip, [data-tooltip] {
   position: relative;

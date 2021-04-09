@@ -1,0 +1,9 @@
+{{ $pos := .Get "pos" }}
+
+{{ if eq $pos "0" }}
+<div style="flex:1;padding-right:10px;">
+{{ else }}
+<div style="flex:1;">
+{{ end }}
+{{ highlight (trim .Inner "\n\r") (.Get "lang") "linenos=false" }}
+</div>

@@ -123,11 +123,7 @@ Let's start with the first version.
 The first version has only three real optimizations.
 - look at the content as longs, so we need less iterations for searching
 - edge cases for empty and full
-
-I use the [BitOperations](https://docs.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.leadingzerocount?view=net-5.0) class, these is available since .Net Core 3.0.
-It uses the processor [intrinsics](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.x86.lzcnt?view=net-5.0) if [available](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=_lzcnt_u64&expand=3504 "Intel Intrinsics Guide") and has a optimized software fallback. So I think there wouldn't be any faster method to do this operation. 
-
-What can be optimized instead? The loop!
+- use intrinsics
 
 {{< codecaption lang="csharp" title="first version" >}}
 public int DefaultLoop(Span<byte> span)
@@ -158,51 +154,53 @@ public int DefaultLoop(Span<byte> span)
 }
 {{< /codecaption >}}
 
+I use the [BitOperations](https://docs.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.leadingzerocount?view=net-5.0) class, these is available since .Net Core 3.0.
+It uses the processor [intrinsics](https://docs.microsoft.com/en-us/dotnet/api/system.runtime.intrinsics.x86.lzcnt?view=net-5.0) if available and has a optimized software fallback. So I think there wouldn't be any faster method to do this operation.
+
+A good overview over all intrinsics can be found at [Intel](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=_lzcnt_u64&expand=3504 "Intel Intrinsics Guide").
+
+###### Results
+
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+{{</ table >}}
+
+So we can't really optimize the operations.
+What can be optimized instead? **The loop**!
+
 ### Unrolling
 
-{{< codecaption lang="csharp" title="two times unrolled" >}}
-public int Unroll2(Span<byte> span)
+##### What is loop unrolling?
+
+{{< wp tag="Loop_unrolling" lang="en" title="Loop unrolling" >}} (also known as loop unwinding) is a technique to reduce the number of loop executions to gain more performance. 
+Like in this small example:
+
+{{< codesidebyside >}}
+{{< codeblocksidebyside lang="csharp" pos="0" >}}
+int[] arr = new int[100];
+for (int i = 0; i < arr.Length; i++)
 {
-    Span<ulong> longSpan = MemoryMarshal.Cast<byte, ulong>(span);
-
-    if (longSpan[0] == 0)
-        return 1;
-
-    if (longSpan[^1] == long.MaxValue)
-        return -1;
-
-    int iterCount = longSpan.Length;
-    for (int i = 0; i < iterCount; i += 2)
-    {
-        ref ulong l2 = ref longSpan[i + 1];
-        // when l4 is max value all others before too
-        if (l2 == ulong.MaxValue)
-            continue;
-
-        ref ulong l1 = ref longSpan[i];
-
-        int res = -1;
-        if (l1 != ulong.MaxValue)
-        {
-            var count = BitOperations.LeadingZeroCount(l1);
-
-            res = (64 - count) + 1;
-        }
-        else if (l2 != ulong.MaxValue)
-        {
-            var count = BitOperations.LeadingZeroCount(l2);
-            res = (64) - count + 64 + 1;
-        }
-
-        if (i > 0 && res != -1)
-            res += (64 * i);
-
-        return res;
-    }
-
-    return -1;
+    arr[i] += 5;
 }
-{{< /codecaption >}}
+{{< /codeblocksidebyside >}}
+{{< codeblocksidebyside lang="csharp" pos="1" >}}
+int[] arr = new int[100];
+for (int i = 0; i < arr.Length / 4; i += 4)
+{
+    arr[i] += 5;
+    arr[i + 1] += 5;
+    arr[i + 2] += 5;
+    arr[i + 3] += 5;
+}
+{{< /codeblocksidebyside >}}
+{{< /codesidebyside >}}
+
+Often this is done by the compiler. But currently, in .Net Core [this is not] always true. It's only appropriate when the content of the loop executes fast and the loop overhead matters. 
+It's not a one fits all solution. Often it can be contra-productive and makes the code slower and harder to read. Typically in everyday work, I think it's never helpful to do such an optimization by hand. But here, it's an experiment, so let's look at the code.
+
+This is the code with four times unrolling. I did a test for 2, 4, and 8 times unrolling, but I don't think it's necessary to show all variants.
 
 {{< codecaption lang="csharp" title="four times unrolled" >}}
 public int Unroll4(Span<byte> span)
@@ -227,7 +225,6 @@ public int Unroll4(Span<byte> span)
         ref ulong l2 = ref longSpan[i + 1];
         ref ulong l3 = ref longSpan[i + 2];
 
-        int mult = i + 1;
         int res = -1;
         if (l1 != ulong.MaxValue)
         {
@@ -260,6 +257,22 @@ public int Unroll4(Span<byte> span)
     return -1;
 }
 {{< /codecaption >}}
+
+It's not more complicated than the standard loop. I'm only making four comparisons at once. So what does this mean for the performance?
+Here the results for different numbers of unrolling.
+<br>
+<br>
+
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+|          LoopUnrolled4 |       1000 | 102.69 μs | 1.514 μs | 2.171 μs | 102.61 μs |  0.74 |    0.02 |       No |
+|          LoopUnrolled2 |       1000 | 155.59 μs | 2.035 μs | 2.918 μs | 156.24 μs |  1.12 |    0.03 |       No |
+|          LoopUnrolled8 |       1000 |  77.82 μs | 1.153 μs | 1.690 μs |  77.90 μs |  0.56 |    0.02 |       No |
+{{</ table >}}
+
+
 
 {{< codecaption lang="nasm" title="two times unrolled asm" >}}
 C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
@@ -489,7 +502,6 @@ C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
 
 
 ``` ini
-
 BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
 AMD Ryzen 7 3700X, 1 CPU, 16 logical and 8 physical cores
 .NET Core SDK=5.0.201

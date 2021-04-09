@@ -1,13 +1,27 @@
 @font-face {
-    font-family: 'Open Sans';
+    font-family: 'Cascadia Mono';
     font-style:  normal;
     font-weight: 400;
-    src:         local('Open Sans'), local('OpenSans'), url(/fonts/CascadiaMono.ttf) format('truetype');
+    src:         local('Cascadia Mono'), local('Cascadia Mono'), url(/fonts/CascadiaMono.ttf) format('truetype');
 }
 
 @font-face {
-    font-family: 'Open Sans';
+    font-family: 'Cascadia Mono';
     font-style:  normal;
     font-weight: 700;
-    src:         local('Open Sans Bold'), local('OpenSans-Bold'), url(/fonts/CascadiaMono.ttf) format('truetype');
+    src:         local('Cascadia Mono'), local('Cascadia Mono'), url(/fonts/CascadiaMono.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style:  normal;
+    font-weight: 400;
+    src:         local('Merriweather'), local('Merriweather'), url(/fonts/Merriweather-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'FireSans';
+    font-style:  normal;
+    font-weight: 400;
+    src:         local('FireSans'), local('FireSans'), url(/fonts/FiraSans-Regular.ttf) format('truetype');
 }

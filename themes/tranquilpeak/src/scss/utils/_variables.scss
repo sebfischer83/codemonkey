@@ -2,9 +2,9 @@
 // --------------------------------------------
 
 // Font families
-$open-sans:            'Open Sans';
-$open-sans-sans-serif: 'Open Sans', sans-serif;
-$merriweather-serif:   'Merriweather', serif;
+$open-sans:            'Cascadia Mono';
+$open-sans-sans-serif: 'Cascadia Mono', sans-serif;
+$merriweather-serif:   'FireSans', serif;
 $menlo:                 Menlo, Consolas, monospace;
 
 $font-family-base: $open-sans-sans-serif;
@@ -26,7 +26,7 @@ $font-families: (
 );
 
 // equal to 15px
-$font-size-base:      1.6rem;
+$font-size-base:      1.2rem;
 $font-color-base:     #5d686f;
 $line-height-base:    1.9em;
 $letter-spacing-base: 0.01em;
@@ -166,7 +166,7 @@ $main: (
 // Highlight code
 $highlight: (
     'background':  #f7f8f8,
-    'font-size':   1.4rem,
+    'font-size':   1.7rem,
     'border':      1px solid,
     'line-height': 2.3rem
 );
