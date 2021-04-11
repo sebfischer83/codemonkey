@@ -23,6 +23,12 @@
   font-weight: 400;
   src: local("FireSans"), local("FireSans"), url(/fonts/FiraSans-Regular.ttf) format("truetype"); }
 
+@font-face {
+  font-family: 'Fira Code';
+  src: url("/fonts/woff2/FiraCode-Regular.woff2") format("woff2"), url("/fonts/woff/FiraCode-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal; }
+
 html {
   font-family: "Cascadia Mono", sans-serif;
   font-size: 10px;
@@ -136,7 +142,7 @@ pre > code {
   width: 100%;
   box-sizing: border-box;
   padding: 15px;
-  font-family: Menlo, Consolas, monospace;
+  font-family: Fire Code, Menlo, Consolas, monospace;
   border: none;
   margin: 0;
   cursor: text;
@@ -147,7 +153,7 @@ pre > code {
 code {
   font-size: 1.5rem;
   display: inline-block;
-  font-family: Menlo, Consolas, monospace;
+  font-family: "Fire Code", Menlo, Consolas, monospace;
   font-weight: 400;
   background-color: #f7f8f8;
   padding: 0 10px; }
@@ -1536,7 +1542,7 @@ figure.highlight,
   .codeblock .code,
   .codeblock .tag {
     background-color: inherit;
-    font-family: Menlo, Consolas, monospace;
+    font-family: Fire Code, Menlo, Consolas, monospace;
     border: none;
     padding: 0;
     margin: 0;
@@ -1602,7 +1608,7 @@ figure.highlight,
 
 .gist .line,
 .gist .line-number {
-  font-family: Menlo, Consolas, monospace;
+  font-family: "Fire Code", Menlo, Consolas, monospace;
   font-size: 1em;
   margin: 0 0 5px 0; }
 

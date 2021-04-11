@@ -3,4 +3,8 @@
 {{ $old := "<table>" }}
 {{ $new := printf "<table class=\"%s\">" $class }}
 {{ $htmlTable := replace $htmlTable $old $new }}
+
+<div style="overflow-x: auto;">
 {{ $htmlTable | safeHTML }}
+
+</div>

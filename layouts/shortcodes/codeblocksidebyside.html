@@ -5,5 +5,7 @@
 {{ else }}
 <div style="flex:1;">
 {{ end }}
-{{ highlight (trim .Inner "\n\r") (.Get "lang") "linenos=false" }}
+{{ $style := (print "linenos=false,hl_lines=" (.Get "hl") ) }}
+
+{{ highlight (trim .Inner "\n\r") (.Get "lang") $style  }}
 </div>

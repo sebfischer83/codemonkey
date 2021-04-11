@@ -15,7 +15,7 @@ keywords:
 - .net core
 - loop unrolling
 - perfomance optimization
-- sharplib
+- sharplib.io
 showTags: true
 showPagination: true
 showSocial: true
@@ -271,8 +271,11 @@ Here the results for different numbers of unrolling.
 |          LoopUnrolled2 |       1000 | 155.59 μs | 2.035 μs | 2.918 μs | 156.24 μs |  1.12 |    0.03 |       No |
 |          LoopUnrolled8 |       1000 |  77.82 μs | 1.153 μs | 1.690 μs |  77.90 μs |  0.56 |    0.02 |       No |
 {{</ table >}}
+The first thing we see is that the two times unrolled loop is slower than the unrolled variant. Also, four or eight times unrolling doesn't mean we are four or eight times faster than the standard loop. 
 
+That shows that you should be cautious with manual unrolling, and it needs constantly benchmarking to see if you can make any runtime improvement with it.
 
+But my main question is, why are the two times loop slower than the default one? I'm not an expert in assembly language, but at least with SharpLab.io, it is easy to get the assembler code in the first place.
 
 {{< codecaption lang="nasm" title="two times unrolled asm" >}}
 C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
@@ -363,7 +366,6 @@ C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
     L0124: call 0x00007ffc9e07bc70
     L0129: int3
 {{< /codecaption >}}
-
 
 {{< codecaption lang="nasm" title="four times unrolled asm" >}}
 C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
@@ -486,6 +488,32 @@ C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
     L01a4: call 0x00007ffc9e07bc70
     L01a9: int3
 {{< /codecaption >}}
+
+As I wrote in the C# code, they are both unrolled, and nothing distinguishes the two in any unique way.
+The thing that makes one slower than the normal loop must be something in the processor itself, maybe something like caching or register usage. (I told you, I'm not an expert in this field)
+
+Here we can see that the compiler uses the processor intrinsic to count the number of leading zero bits.
+
+{{< codecaption lang="nasm" >}}
+L0150: lzcnt r10, rax
+{{< /codecaption >}}
+
+What looks interesting is what does the compiler does here.
+
+{{< codesidebyside >}}
+{{< codeblocksidebyside lang="csharp" pos="0" hl="2" >}}
+if (i > 0 && res != -1)
+    res += (64 * i);
+{{< /codeblocksidebyside >}}
+{{< codeblocksidebyside lang="nasm" pos="1" >}}
+L018c: je short L0196
+L018e: mov eax, edx
+L0190: shl eax, 6
+L0193: add r10d, eax
+L0196: mov eax, r10d
+L0199: add rsp, 0x38
+{{< /codeblocksidebyside >}}
+{{< /codesidebyside >}}
 
 ### Binary Search Like
 
