@@ -499,6 +499,7 @@ L0150: lzcnt r10, rax
 {{< /codecaption >}}
 
 What looks interesting is what does the compiler does here.
+I don't understand what's going on here. It makes a left shift by 6, which means 1 shift left by 6 is 64. And it adds a value of 0x38 (56) to a register. Oh, I need to learn more assembler to know what's going on here. 
 
 {{< codesidebyside >}}
 {{< codeblocksidebyside lang="csharp" pos="0" hl="2" >}}
