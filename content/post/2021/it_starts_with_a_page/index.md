@@ -70,6 +70,7 @@ With the new [`MemoryMarshal`](https://docs.microsoft.com/de-de/dotnet/api/syste
 
 The standard header for all page types currently contains the following data.
 
+{{<table "table table-striped table-sm table-hover tableHeader">}}
 |Name | Type   | Position  | Length in bytes | Description  |
 |---|---|---|---|---|
 | Id  | uint  | 0  | 4  | A continuously rising number identifies the page and marks also their position in the file. <br> Database header is always id 0. |
@@ -81,6 +82,7 @@ The standard header for all page types currently contains the following data.
 | Next free position  | ushort  | 16 | 2  | Points to the next free byte at the end of all items.  |
 | Unaligned free bytes | ushort  | 18  | 2  | The number of free bytes between items.  |
 | Highest slot id  | byte  | 20  | 1  | The highest used slot id. |
+{{</ table >}}
 
 And the current layout:
 ```cs
@@ -230,7 +232,7 @@ public virtual void Defrag()
 ### Page types
 
 This table shows the planned or existing page types.
-  
+{{<table "table table-striped table-sm table-hover tableHeader">}}
 |Type | Description |
 |---|---|
 |Header|Contains meta informations about the database. |
@@ -241,6 +243,7 @@ This table shows the planned or existing page types.
 |Index|Holds index informations.|
 |Object Directory (ODM)|A directory of object types and their page addresses.|
 |Database Settings|Should save triggers and other changeable things (really unclear currently).|
+{{</ table >}}
 
 ## How pages are organized
 
