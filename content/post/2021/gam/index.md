@@ -23,7 +23,7 @@ coverImage: https://codemonkeyspace.b-cdn.net/post/2021/gam/featured-image.jpg
 coverMeta: in
 coverSize: partial
 comments: true
-thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/gam/thumb.png
+thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/gam/thumb.webp
 thumbnailImagePosition: bottom
 showPagination: false
 draft: true
@@ -517,6 +517,8 @@ L0199: add rsp, 0x38
 {{< /codesidebyside >}}
 
 ### Binary Search Like
+
+### Binary Search Like with Lookup
 
 ### Span.IndexOf
 

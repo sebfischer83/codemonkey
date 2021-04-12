@@ -14,11 +14,11 @@ keywords:
 showTags: true
 showPagination: true
 showSocial: true
-coverImage: https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/featured-image.jpg
+coverImage: https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/featured-image.webp
 coverMeta: in
 coverSize: partial
 comments: true
-thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/featured-image.jpg
+thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/it_starts_with_a_page/featured-image-thumb.jpg
 thumbnailImagePosition: right
 showPagination: false
 ---
@@ -244,7 +244,6 @@ This table shows the planned or existing page types.
 |Object Directory (ODM)|A directory of object types and their page addresses.|
 |Database Settings|Should save triggers and other changeable things (really unclear currently).|
 {{</ table >}}
-
 ## How pages are organized
 
 The page organization must be predictable, so it's easy to find the wanted page. My current approach is not the most efficient, but for the beginning, it's enough.

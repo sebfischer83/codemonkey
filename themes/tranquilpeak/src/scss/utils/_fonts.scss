@@ -2,6 +2,7 @@
     font-family: 'Cascadia Mono';
     font-style:  normal;
     font-weight: 400;
+    font-display: swap;
     src:         local('Cascadia Mono'), local('Cascadia Mono'), url(/fonts/CascadiaMono.ttf) format('truetype');
 }
 
@@ -9,6 +10,7 @@
     font-family: 'Cascadia Mono';
     font-style:  normal;
     font-weight: 700;
+    font-display: swap;
     src:         local('Cascadia Mono'), local('Cascadia Mono'), url(/fonts/CascadiaMono.ttf) format('truetype');
 }
 
@@ -16,6 +18,7 @@
     font-family: 'Merriweather';
     font-style:  normal;
     font-weight: 400;
+    font-display: swap;
     src:         local('Merriweather'), local('Merriweather'), url(/fonts/Merriweather-Regular.ttf) format('truetype');
 }
 
@@ -23,6 +26,7 @@
     font-family: 'FireSans';
     font-style:  normal;
     font-weight: 400;
+    font-display: swap;
     src:         local('FireSans'), local('FireSans'), url(/fonts/FiraSans-Regular.ttf) format('truetype');
 }
 
@@ -40,6 +44,7 @@
       url("/fonts/woff/FiraCode-Regular.woff") format("woff");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
   }
   
 //   @font-face {
