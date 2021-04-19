@@ -3,31 +3,36 @@
   font-family: 'Cascadia Mono';
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: local("Cascadia Mono"), local("Cascadia Mono"), url(/fonts/CascadiaMono.ttf) format("truetype"); }
 
 @font-face {
   font-family: 'Cascadia Mono';
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: local("Cascadia Mono"), local("Cascadia Mono"), url(/fonts/CascadiaMono.ttf) format("truetype"); }
 
 @font-face {
   font-family: 'Merriweather';
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: local("Merriweather"), local("Merriweather"), url(/fonts/Merriweather-Regular.ttf) format("truetype"); }
 
 @font-face {
   font-family: 'FireSans';
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: local("FireSans"), local("FireSans"), url(/fonts/FiraSans-Regular.ttf) format("truetype"); }
 
 @font-face {
   font-family: 'Fira Code';
   src: url("/fonts/woff2/FiraCode-Regular.woff2") format("woff2"), url("/fonts/woff/FiraCode-Regular.woff") format("woff");
   font-weight: 400;
-  font-style: normal; }
+  font-style: normal;
+  font-display: swap; }
 
 html {
   font-family: "Cascadia Mono", sans-serif;
