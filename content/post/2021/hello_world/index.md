@@ -2,12 +2,10 @@
 title: "Hello world!"
 date: 2021-03-09T19:10:26+01:00
 categories:
-- general
+- meta
 tags:
 - datatent
 - development
-keywords:
-- tech
 showTags: true
 showPagination: true
 showSocial: true

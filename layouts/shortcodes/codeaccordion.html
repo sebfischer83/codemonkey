@@ -1,0 +1,24 @@
+{{/*  https://zwbetz.com/generate-a-random-string-in-hugo/  */}}
+{{ $seed := .Get "title" }}
+{{ $random := delimit (shuffle (split (md5 $seed) "" )) "" }}
+
+<div class="accordion accordion-flush" id="accordionExample">
+    <div class="accordion-item">
+        <div class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{$random}}" aria-expanded="false" aria-controls="collapseOne">
+                <div style="position: absolute;top:0px;font-size:smaller;font-weight:bold;">
+                    Code
+                </div>
+                {{ .Get "title" }}
+            </button>
+        </div>
+          <div id="collapseOne{{$random}}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div class="codewrapper">
+                    {{ highlight (trim .Inner "\n\r") (.Get "lang") "linenos=false" }}
+                  </div>
+            </div>
+          </div>
+    </div>
+</div>
+

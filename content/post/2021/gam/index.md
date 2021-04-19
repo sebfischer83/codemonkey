@@ -1,8 +1,9 @@
 ---
-title: "GAM, Loops and more"
-date: 2021-04-09T19:10:26+01:00
+title: "Loops, functions and others... a tale of optimization"
+date: 2021-04-19T18:10:26+01:00
 categories:
 - datatent
+- perfomance
 tags:
 - datatent
 - development
@@ -16,6 +17,7 @@ keywords:
 - loop unrolling
 - perfomance optimization
 - sharplib.io
+- binary search
 showTags: true
 showPagination: true
 showSocial: true
@@ -26,18 +28,19 @@ comments: true
 thumbnailImage: https://codemonkeyspace.b-cdn.net/post/2021/gam/thumb.webp
 thumbnailImagePosition: bottom
 showPagination: false
-draft: true
+draft: false
 math: true
 ---
 
-This post was supposed to say something about the GAM. But a small function that is not even very significant in 
-this respect turned into a long and interesting optimization problem.
+This post was supposed to say something about the Global Allocation Map of the Datatent database. But a small function that is not even very significant in this respect turned into a long and interesting optimization problem.
 
 <!--more-->
 
 <!--TOC-->
 
-But let's start with the GAM page here. 
+A short note. When I write it, the allocation is "continuously ascending"; it's not the bit field itself but the byte values. (it gets not filled like 11110000000)
+
+But let's start with the Global Allocation Map here. 
 
 ## GAM
 
@@ -51,7 +54,7 @@ And after 65024 pages, always a GAM keeps coming. This pattern makes it easy to 
 The first GAM is created with the database file itself and contains one page from the start. The first page in a GAM is always an IAM page, but this comes in a later post.
 
 The allocation of pages is always continuously ascending. This simplification allows many things to be handled more efficiently.
-For example, if the last byte is 0xFF, the page is full. When the first byte is 0x00, the page is empty.
+For example, if the last byte is $ 0xFF $, the page is full. When the first byte is $ 0x00 $, the page is empty.
 We are searching only for the first set bit when the page is loaded from the disk. After that, the page cache the last issued id.
 
 ### How to get a page id
@@ -274,10 +277,9 @@ Here the results for different numbers of unrolling.
 The first thing we see is that the two times unrolled loop is slower than the unrolled variant. Also, four or eight times unrolling doesn't mean we are four or eight times faster than the standard loop. 
 
 That shows that you should be cautious with manual unrolling, and it needs constantly benchmarking to see if you can make any runtime improvement with it.
-
 But my main question is, why are the two times loop slower than the default one? I'm not an expert in assembly language, but at least with SharpLab.io, it is easy to get the assembler code in the first place.
 
-{{< codecaption lang="nasm" title="two times unrolled asm" >}}
+{{< codeaccordion lang="nasm" title="two times unrolled asm" >}}
 C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
     L0000: sub rsp, 0x38
     L0004: xor eax, eax
@@ -365,9 +367,9 @@ C.FindFirstEmptyUnroll2(System.Span`1<Byte>)
     L0123: int3
     L0124: call 0x00007ffc9e07bc70
     L0129: int3
-{{< /codecaption >}}
+{{< /codeaccordion >}}
 
-{{< codecaption lang="nasm" title="four times unrolled asm" >}}
+{{< codeaccordion lang="nasm" title="four times unrolled asm" >}}
 C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
     L0000: sub rsp, 0x38
     L0004: xor eax, eax
@@ -487,7 +489,7 @@ C.FindFirstEmptyUnroll4(System.Span`1<Byte>)
     L01a3: int3
     L01a4: call 0x00007ffc9e07bc70
     L01a9: int3
-{{< /codecaption >}}
+{{< /codeaccordion >}}
 
 As I wrote in the C# code, they are both unrolled, and nothing distinguishes the two in any unique way.
 The thing that makes one slower than the normal loop must be something in the processor itself, maybe something like caching or register usage. (I told you, I'm not an expert in this field)
@@ -518,16 +520,417 @@ L0199: add rsp, 0x38
 
 ### Binary Search Like
 
+The next step is to eliminate the loop because we can't improve the loop content much more. So Every iteration, we don't have to do save time.
+But how? 
+
+The first thing to notice is because the allocation of pages is stringently increasing, there is never an allocated page after a free one. (currently, of course) This fact means the bit field is like an ordered list. In this case, an algorithm like {{< wp tag="Binary_search_algorithm" lang="en" title="binary search" >}} can be used.
+
+The worst-case performance is $ O(n\log{}n) $ and this is also the average-case performance.
+Instead of a maximum of 8124 iterations for the default loop or 2031 for the four times unrolled version, the maximum number of iterations can be calculated by:
+$$ log_{2} 8124 \approx 13 $$
+So instead of 2031 iterations, it needs 13 to find the value.
+
+<div style="width:50%;margin-left: auto;margin-right: auto;">
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/gam/bigo.svg" caption="runtime log vs linear" attr="" attrlink="" width="50%" link="https://codemonkeyspace.b-cdn.net/post/2021/gam/bigo.svg" target="_blank" >}}
+</div>
+
+{{< blockquote author="Donald Knuth" link="https://en.wikiquote.org/wiki/Donald_Knuth" >}}
+Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky
+{{< /blockquote >}}
+
+There are some differences between a standard binary search and the version needed here. It must find the first bit that is not 1, that is in the first byte that isn't 0xFF, or the first long that isn't long.MaxValue.
+Because we can search over long, there are only 1016 values to compare, so log(2) 1016 approx 10, fewer comparisons to-do.
+
+And because the first value that matches isn't necessarily the correct one, we need a "lockback" to the value before, if this is also not long.MaxValue the search must go on; otherwise, the correct one is found.
+
+#### Example
+
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/gam/binarysearch.svg" caption="results" attr="" attrlink="" width="100%"link="https://codemonkeyspace.b-cdn.net/post/2021/gam/binarysearch.svg" target="_blank" >}}
+
+##### 1.
+Here it's clear that we don't hit the right spot. Our hit is 0 and the value before, so it's not clear that any of these values are correct.
+The search must go on.
+##### 2.
+In this case, the hit also isn't the correct value. But the value before must be the right one. Because it gets allocated in a row, the first value that isn't 0xFF is the right one, and before such a value, it can't be another value as 0xFF. 
+
+##### 3.
+Here we hit the right one because the hit isn't 0xFF, and the predecessor is 0xFF.
+
+<br>
+<br>
+Now the implementation.
+
+##### Code
+
+{{< codecaption lang="csharp" title="binary search like" >}}
+public int FindBinarySearch(Span<byte> spanByte)
+{
+    Span<ulong> span = MemoryMarshal.Cast<byte, ulong>(spanByte);
+
+    if (span[0] == 0)
+        return 1;
+
+    if (span[^1] == long.MaxValue)
+        return -1;
+
+    int min = 0;
+    int max = span.Length - 1;
+    int index = -1;
+
+    while (min <= max)
+    {
+        int mid = mid = (int)unchecked((uint)(min + max) >> 1);
+        ref var b = ref span[mid];
+
+        if (b != ulong.MaxValue)
+        {
+            if (mid == 0)
+            {
+                index = 0;
+                break;
+            }
+
+            ref var b1 = ref span[mid - 1];
+            if (b1 == ulong.MaxValue)
+            {
+                index = mid;
+                break;
+            }
+
+            max = mid - 1;
+            continue;
+        }
+
+        min = mid + 1;
+    }
+
+    if (index > -1)
+    {
+        int res = 0;
+        ref var l = ref span[index];
+        var count = BitOperations.LeadingZeroCount((ulong)l);
+        res = (64 - count) + 1;
+        if (index > 0 && res != -1)
+            res += (64 * index);
+        return res;
+    }
+
+    return index;
+}
+{{< /codecaption >}}
+
+And now to the results compared with the default loop and the currently fastest implementation.
+
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+|          LoopUnrolled8 |       1000 |  77.82 μs | 1.153 μs | 1.690 μs |  77.90 μs |  0.56 |    0.02 |       No |
+|       BinarySearchLike |       1000 |  56.73 μs | 1.024 μs | 1.501 μs |  56.48 μs |  0.41 |    0.01 |       No |
+{{</ table >}}
+
+This version beats the eight times unrolled loop clearly, and I think the usage of the binary search algorithm is a more general approach than manual loop unrolling.
+But is this the end? Can we make this faster?
+
 ### Binary Search Like with Lookup
+
+Now I thought, what can I do now?
+My idea was to replace a computation we pre-computed data because that must be faster or not?
+I changed this code:
+
+
+{{< codesidebyside >}}
+{{< codeblocksidebyside lang="csharp" pos="0" >}}
+int res = 0;
+ref var l = ref span[index];
+var count = BitOperations.LeadingZeroCount((ulong)l);
+res = (64 - count) + 1;
+if (index > 0 && res != -1)
+    res += (64 * index);
+return res;
+{{< /codeblocksidebyside >}}
+{{< codeblocksidebyside lang="csharp" pos="1" >}}
+int res = 0;
+ref var l = ref span[index];
+res = _lookup[l];
+if (index > 0 && res != -1)
+    res += (64 * index);
+return res;
+{{< /codeblocksidebyside >}}
+{{< /codesidebyside >}}
+
+This code is the cache builder function:
+{{< codecaption lang="csharp" title="cache builder" >}}
+static FindFirstEmptyPageBench()
+{
+    Dictionary<ulong, int> dictionary = new Dictionary<ulong, int>();
+    for (int i = 0; i < 64; i++)
+    {
+        ulong n = 0;
+        for (int j = 0; j < i; j++)
+        {
+            n = (ulong)(n | (1ul << j));
+        }
+
+        Debug.WriteLine(i);
+        Debug.WriteLine(n);
+
+        if (!dictionary.ContainsKey(n))
+            dictionary.Add(i > 0 ? n : ulong.MaxValue, i > 0 ? 64 - i + 1 : 1);
+    }
+    dictionary.Add(0, 1);
+    _lookup = dictionary;
+}
+{{< /codecaption >}}
+
+And what happens?
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+|       BinarySearchLike |       1000 |  56.73 μs | 1.024 μs | 1.501 μs |  56.48 μs |  0.41 |    0.01 |       No |
+| BinarySearchLikeLookup |       1000 |  75.21 μs | 0.746 μs | 1.070 μs |  75.10 μs |  0.54 |    0.01 |       No |
+{{</ table >}}
+
+It's slower. That is confusing. Maybe this change stops the compiler from some optimizations. Or is this computation much faster than the lookup from a dictionary? 
+
+So I measured it for 100000 calls.
+
+``` ini
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
+AMD Ryzen 7 3700X, 1 CPU, 16 logical and 8 physical cores
+.NET Core SDK=6.0.100-preview.2.21155.3
+  [Host]    : .NET Core 5.0.4 (CoreCLR 5.0.421.11614, CoreFX 5.0.421.11614), X64 RyuJIT
+  MediumRun : .NET Core 5.0.4 (CoreCLR 5.0.421.11614, CoreFX 5.0.421.11614), X64 RyuJIT
+
+Job=MediumRun  IterationCount=15  LaunchCount=2  
+WarmupCount=10  
+```
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|      Method |      Mean |    Error |    StdDev |    Median | Baseline |
+|------------ |----------:|---------:|----------:|----------:|--------- |
+| Computation |  49.71 μs | 0.449 μs |  0.630 μs |  49.56 μs |       No |
+|      Lookup | 570.87 μs | 7.044 μs | 10.102 μs | 568.72 μs |       No |
+{{</ table >}}
+
+The computation is much faster than getting the pre-computed value from the dictionary. 
+I'm surprised by this result, but this means that precalculation is only worthwhile for much more complex operations. Again, it is of great importance to measure the code to know when this is worthwhile.
 
 ### Span.IndexOf
 
+The next try. The built-in functions in the framework are designed for general cases but are already heavily optimized by developers who know what they are doing. So let's try one of the built-in functions.
+One thing to try is the [IndexOf](https://docs.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexof?view=net-5.0#System_MemoryExtensions_IndexOf__1_System_Span___0____0_) function on [Span](https://docs.microsoft.com/en-us/dotnet/api/system.span-1?view=net-5.0). 
+
+I recommend looking at the [source code](https://source.dot.net/#System.Private.CoreLib/MemoryExtensions.cs,0d987e9afcdbe004,references) of the framework to see what optimizations are there. 
+The test code will be this:
+
+{{< codecaption lang="csharp" title="indexof" >}}
+public int IndexOfSearch(Span<byte> spanByte)
+{
+    Span<ulong> span = MemoryMarshal.Cast<byte, ulong>(spanByte);
+
+    if (span[0] == 0)
+        return 1;
+
+    if (span[^1] == long.MaxValue)
+        return -1;
+
+    int index = -1;
+
+    var firstZero = span.IndexOf(0u);
+    if (firstZero > 0)
+    {
+        // check prev
+        if (span[firstZero - 1] == ulong.MaxValue)
+            index = firstZero;
+        else
+            index = firstZero - 1;
+    }
+    else
+    {
+        index = span.Length - 1;
+    }
+
+    if (index > -1)
+    {
+        int res = 0;
+        ref var l = ref span[index];
+        var count = BitOperations.LeadingZeroCount((ulong)l);
+        res = (64 - count) + 1;
+        if (index > 0 && res != -1)
+            res += (64 * index);
+        return res;
+    }
+
+    return index;
+}
+{{< /codecaption >}}
+
+A bit of explanation about my thoughts: I search for the first occurrence of a zero [long]. If something is found, then:
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/gam/math.PNG" caption="" attr="" attrlink="" width="100%" link="https://codemonkeyspace.b-cdn.net/post/2021/gam/math.PNG" target="_blank" >}}
+
+otherwise, it must be the last entry [span.Lenght - 1].
+
+How does it perform?
+
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+|       BinarySearchLike |       1000 |  56.73 μs | 1.024 μs | 1.501 μs |  56.48 μs |  0.41 |    0.01 |       No |
+|                IndexOf |       1000 | 138.47 μs | 1.586 μs | 2.324 μs | 138.66 μs |  1.00 |    0.03 |       No |
+{{</ table >}}
+It's on par with the default loop. So no further things to try here. 
+
 ### Vector<byte>
+
+Then I asked on [Reddit](https://www.reddit.com/r/csharp/comments/meem45/how_to_optimize_this_function/gsi79qf?utm_source=share&utm_medium=web2x&context=3) if anyone has other ideas for this.
+One thing that came up was the use [Vector<T>](https://docs.microsoft.com/de-de/dotnet/api/system.numerics.vector-1?view=net-5.0).
+
+{{< codecaption lang="csharp" title="vector" >}}
+public int FindFirstEmptyVectorT(Span<byte> span)
+{
+    int iterations = Math.DivRem(span.Length, Vector<byte>.Count, out int nonAligned);
+    for (int i = 0; i < iterations; i++)
+    {
+        var vector = new Vector<byte>(span[(Vector<byte>.Count * i)..]);
+        if (vector != _testVector)
+        {
+            int bitIndex = Vector<byte>.Count * i * 8;
+            var u64vector = Vector.AsVectorUInt64(vector); // handle LZC with uiint here
+            for (int j = 0; j < Vector<ulong>.Count; j++)
+            {
+                var l = u64vector[j];
+                if (l == ulong.MaxValue)
+                    continue;
+
+                int res = 0;
+                var count = BitOperations.LeadingZeroCount((ulong)l);
+                res = (64 - count) + 1;
+                if (j > 0 && res != -1)
+                    res += (64 * j);
+                return res + bitIndex;
+            }
+        }
+    }
+
+    return -1;
+}
+{{< /codecaption >}}
+
+The results are:
+
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+|       BinarySearchLike |       1000 |  56.73 μs | 1.024 μs | 1.501 μs |  56.48 μs |  0.41 |    0.01 |       No |
+|             WithVector |       1000 | 155.86 μs | 2.147 μs | 3.147 μs | 155.26 μs |  1.12 |    0.04 |       No |
+{{</ table >}}
+
+It's slower than the standard loop. I believe that this can be made more performant, but I don't will look into it further.
+
 
 ### "Octuple"
 
+The next one from [Reddit](https://www.reddit.com/r/csharp/comments/meem45/how_to_optimize_this_function/gsj33r9?utm_source=share&utm_medium=web2x&context=3) is very special. It uses AVX2 vector intrinsics and does crazy stuff. Please look at the comments in the code for more information.
+
+{{< codecaption lang="csharp" title="indexof" >}}
+public unsafe int FindFirstOctupleSearchOnce(Span<byte> spanByte)
+{
+    Span<uint> span = MemoryMarshal.Cast<byte, uint>(spanByte);
+    fixed (uint* spanPtr = span)
+    {
+        const int bitsPerInt = 32;
+        const int ints = 8128 / 4;
+        const int loadCount = 8;
+        const int sections = loadCount + 1;
+        const int sectionLength = (ints / sections) + 1; // 225.8 -> 226
+        var indexes = Vector256.Create(
+            sectionLength * 1,
+            sectionLength * 2,
+            sectionLength * 3,
+            sectionLength * 4,
+            sectionLength * 5,
+            sectionLength * 6,
+            sectionLength * 7,
+            sectionLength * 8);
+
+        int lowerBound = OctupleSearchLowerBound(spanPtr, indexes, sectionLength);
+        int index = lowerBound * bitsPerInt;
+
+        int upperBound = Math.Min(lowerBound + sectionLength + 1, span.Length);
+        for (int i = lowerBound; i < upperBound; i++)
+        {
+            int bitsSet = BitOperations.PopCount(span[i]);
+            index += bitsSet;
+            if (bitsSet != bitsPerInt)
+            {
+                break;
+            }
+        }
+
+        return index + 1;
+    }
+}
+
+public unsafe int OctupleSearchLowerBound(uint* spanPtr, Vector256<int> indexes, int sectionLength)
+{
+    //Load 8 indexes at once into a Vector256
+    var values = Avx2.GatherVector256(spanPtr, indexes, (byte)sizeof(int));
+
+    //How many loaded values have all bits set?
+    //If true then set to 0xffffffff else 0
+    var isMaxValue = Avx2.CompareEqual(values, Vector256<uint>.AllBitsSet);
+
+    //Take msb of each 32bit element and return them as an int.
+    //Then count number of bits that are set and that is equals
+    //to the number of loaded values that were all ones.
+    var isMaxValueMask = Avx2.MoveMask(isMaxValue.AsSingle());
+    var isMaxCount = BitOperations.PopCount((uint)isMaxValueMask);
+
+    //For each loaded vaue that's all ones, a sectionLength
+    //number of integers must also be all ones
+    return isMaxCount * sectionLength;
+}
+{{< /codecaption >}}
+
+The results are:
+
+{{<table "table table-striped table-sm table-hover tableHeader">}}
+|                 Method | Iterations |      Mean |    Error |   StdDev |    Median | Ratio | RatioSD | Baseline |
+|----------------------- |----------- |----------:|---------:|---------:|----------:|------:|--------:|--------- |
+|                   Loop |       1000 | 138.85 μs | 1.539 μs | 2.303 μs | 138.74 μs |  1.00 |    0.00 |      Yes |
+|       BinarySearchLike |       1000 |  56.73 μs | 1.024 μs | 1.501 μs |  56.48 μs |  0.41 |    0.01 |       No |
+|          OctupleSearch |       1000 |  94.76 μs | 1.404 μs | 2.102 μs |  94.30 μs |  0.68 |    0.02 |       No |
+{{</ table >}}
+
+It's much better than the standard loop but can't beat the binary search (of course). But it's a clever piece of code and worth looking into. 
+
 ## Conclusion
 
+### Is premature optimization truly the root of all evil?
+
+When you need to earn money with your code, this kind of optimization will be, in most cases, contra-productive.
+If the user will wait for 0,5s or 0,35s on the result is in most applications irrelevant. Only when you've got code that will be executed many many times than it's helpful to search for hot paths.
+But it is always necessary to make sure that you optimize in the right place. Tools like [BenchmarkDotNet](https://benchmarkdotnet.org/) or Profilers like [dotTrace](https://www.jetbrains.com/de-de/profiler/) can be helpful to find the hot paths.
+
+But in a side project, you've got no deadlines, so it's about learning new things, and then it's up to you where to spend your time with.
+
+### And the winner is
+
+<div style="display:flex;justify-content:center;align-items:center;font-weight:bolder;flex-flow: column;">
+<div style="width:20%;float:left;">
+
+{{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/gam/podium.svg" caption="" attr="" attrlink="" width="30%" link="https://codemonkeyspace.b-cdn.net/post/2021/gam/podium.svg" target="_blank" >}}
+
+</div>
+<span>
+Binary search like
+</span>
+</div>
+
+#### Results
 
 {{< figure src="https://codemonkeyspace.b-cdn.net/post/2021/gam/Find%20first%20zero%20bit.svg" caption="results" attr="" attrlink="" width="100%" link="https://codemonkeyspace.b-cdn.net/post/2021/gam/Find%20first%20zero%20bit.svg" target="_blank" >}}
 
@@ -557,7 +960,13 @@ WarmupCount=10
 |          OctupleSearch |       1000 |  94.76 μs | 1.404 μs | 2.102 μs |  94.30 μs |  0.68 |    0.02 |       No |
 {{</ table >}}
 
+That was my little journey.
 
+<br>
+<br>
+<br>
 <small>
 Photo by <a href="https://unsplash.com/@guibolduc?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Guillaume Bolduc</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-  </small>
+  
+ <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> 
+</small>
