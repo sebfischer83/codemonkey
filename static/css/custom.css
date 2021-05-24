@@ -1,80 +1,106 @@
 figcaption > p {
-    margin-top: 10px !important;
-    text-align: center;
+  margin-top: 10px !important;
+  text-align: center;
+}
+
+code .tag {
+  background-color: transparent;
+  margin: 0px;
+  cursor: pointer;
+  letter-spacing: normal;
 }
 
 .code > figcaption {
-    margin-top: 10px !important;
-    text-align: center;
-    margin-bottom: -10px;
-    font-size: smaller;
-    background-color:#272822;
-    color: white;
-    letter-spacing: 1.5px;
-    font-family: 'Fira Code';
+  margin-top: 10px !important;
+  text-align: center;
+  margin-bottom: -10px;
+  font-size: smaller;
+  background-color: #272822;
+  color: white;
+  letter-spacing: 1.5px;
+  font-family: 'Fira Code';
 }
 
-code[class*="language-"] {
-    font-family: 'Fira Code';
-    /* needed for ligatures */
-     letter-spacing: 0px;
+code[class*='language-'] {
+  font-family: 'Fira Code';
+  /* needed for ligatures */
+  letter-spacing: 0px;
 }
 
-code { font-family: 'Fira Code', monospace; 
- font-size: smaller;}
+code {
+  font-family: 'Fira Code', monospace;
+  font-size: smaller;
+}
 
 @supports (font-variation-settings: normal) {
-  code { font-family: 'Fira Code VF', monospace; }
+  code {
+    font-family: 'Fira Code VF', monospace;
+  }
 }
 
 .highlight {
-    font-size: smaller;
+  font-size: smaller;
 }
 
-#main > article > div.post-content.markdown > div > figure.code > div > div > div > table > tbody > tr > td:nth-child(1) > pre > code {
-    background-color: transparent;
+#main
+  > article
+  > div.post-content.markdown
+  > div
+  > figure.code
+  > div
+  > div
+  > div
+  > table
+  > tbody
+  > tr
+  > td:nth-child(1)
+  > pre
+  > code {
+  background-color: transparent;
 }
 
 figure {
-    margin: 0px;
+  margin: 0px;
 }
 
 figure figcaption {
-    font-weight: bolder;
+  font-weight: bolder;
 }
 
 .tableHeader thead {
-    background-color: floralwhite;
+  background-color: floralwhite;
 }
 
-*, ::after, ::before {
-    box-sizing: unset;
+*,
+::after,
+::before {
+  box-sizing: unset;
 }
 
 h2 {
-    text-decoration-style: line;
-    text-decoration-thickness: 2px;
-    text-decoration-line: underline;
-    text-decoration-color: red;
+  text-decoration-style: line;
+  text-decoration-thickness: 2px;
+  text-decoration-line: underline;
+  text-decoration-color: red;
 }
 
 h2::before {
-    content: '# ';
-    color: red;
+  content: '# ';
+  color: red;
 }
 
 h3 {
-    text-decoration-style: line;
-    text-decoration-thickness: 2px;
-    text-decoration-line: underline;
-    text-decoration-color: red;
+  text-decoration-style: line;
+  text-decoration-thickness: 2px;
+  text-decoration-line: underline;
+  text-decoration-color: red;
 }
 
 h3::before {
-    content: '# ';
-    color: red;
+  content: '# ';
+  color: red;
 }
 
 blockquote {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
